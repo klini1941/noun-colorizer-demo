@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Noun Colorizer (Demo v2)</title>
+  <style>
+    :root { --blue:#0B3D91; --fg:#111; --bg:#fff; --muted:#666; --border:#e6e6e6; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background: var(--bg); color: var(--fg); }
+    .wrap { max-width: 980px; margin: 26px auto; padding: 0 16px; }
+    .card { border: 1px solid var(--border); border-radius: 16px; padding: 18px; box-shadow: 0 2px 16px rgba(0,0,0,.05); }
+    h1 { font-size: 22px; margin: 0 0 6px; }
+    .sub { color: var(--muted); margin: 0 0 12px; line-height: 1.35; }
+    .prompt { margin: 12px 0 8px; padding: 10px 12px; border-radius: 12px; background:#fafafa; border:1px solid var(--border); }
+    .prompt b { color:#000; }
+    textarea { width: 100%; min-height: 145px; border-radius: 12px; border: 1px solid var(--border); padding: 12px; font-size: 15px; line-height: 1.35; resize: vertical; }
+    .row { display:flex; gap: 10px; flex-wrap: wrap; align-items:center; margin-top: 12px; }
+    button { border: 1px solid var(--border); background: #f7f7f7; padding: 10px 12px; border-radius: 12px; cursor:pointer; font-weight: 700; }
+    button.primary { background: #111; color:#fff; border-color:#111; }
+    button.ghost { background: #fff; }
+    button:disabled { opacity:.5; cursor:not-allowed; }
+    label { display:flex; gap:8px; align-items:center; color: var(--muted); font-size: 14px; }
+    .out { margin-top: 14px; border: 1px dashed var(--border); border-radius: 12px; padding: 14px; background: #fcfcfc; line-height: 1.6; font-size: 16px; }
+    .noun { text-decoration: underline; text-decoration-color: var(--blue); text-decoration-thickness: 3px; text-underline-offset: 4px; }
+    .legend { margin-top: 10px; color: var(--muted); font-size: 13px; display:flex; gap:10px; align-items:center; }
+    .swatch { width: 18px; height: 4px; background: var(--blue); border-radius: 99px; display:inline-block; }
+    .fine { margin-top: 10px; color: var(--muted); font-size: 12px; line-height: 1.35; }
+    code { background:#f3f3f3; padding: 2px 6px; border-radius: 6px; }
+    .tag { display:inline-block; font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); background:#fff; margin-left:8px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Noun Colorizer <span class="tag">Demo v2</span></h1>
+      <p class="sub">
+        A “predict → reveal → fade” demo. Paste text, <b>predict the anchor nouns</b>, then click <b>Reveal lines</b> to underline likely nouns in dark blue.
+      </p>
+
+      <div class="prompt" id="prompt">
+        <b>Step 1:</b> Before revealing anything, notice which words feel like anchors (people, places, things, ideas).
+      </div>
+
+      <textarea id="inp">After the meeting, the team reviewed the proposal and revised the timeline for the launch.</textarea>
+
+      <div class="row">
+        <button class="primary" id="reveal">Reveal lines</button>
+        <button class="ghost" id="hide" disabled>Hide lines</button>
+        <button id="reset">Reset (predict again)</button>
+        <label><input type="checkbox" id="conservative" /> Conservative mode (fewer guesses)</label>
+      </div>
+
+      <div class="legend"><span class="swatch"></span> Dark-blue underline = likely noun</div>
+
+      <div class="out" id="out" aria-live="polite"></div>
+
+      <div class="fine">
+        Notes: This is a lightweight demo (no external services). It uses a small built-in noun list + simple heuristics (suffixes like <code>-tion</code>, <code>-ment</code>, <code>-ness</code>). It simulates the experience, not perfect grammar.
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
